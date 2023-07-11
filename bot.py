@@ -24,9 +24,9 @@ async def start(message: aiogram.types.Message):
     try:await bot.send_message(372512859, 'Бот активирован новым человеком')
     except:pass
     await message.answer(FIRST_MESSAGE)
-    await asyncio.sleep(15)
+    await asyncio.sleep(25)
     await message.answer(SECOND_MESSAGE)
-    await asyncio.sleep(15)
+    await asyncio.sleep(25)
     keyboard = aiogram.types.InlineKeyboardMarkup(2)
     keyboard.add(aiogram.types.InlineKeyboardButton('НАЧАТЬ ОБУЧЕНИЕ ✅', callback_data='next_1'))
     keyboard.add(aiogram.types.InlineKeyboardButton('ЗАДАТЬ ВОПРОС ТРЕЙДЕРУ🤔', url='https://t.me/mhtrade_bo'))
