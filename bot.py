@@ -21,7 +21,8 @@ dp = aiogram.Dispatcher(bot)
 
 @dp.message_handler(commands=['start'])
 async def start(message: aiogram.types.Message):
-    await bot.send_message(372512859, 'Бот активирован новым человеком')
+    try:await bot.send_message(372512859, 'Бот активирован новым человеком')
+    except:pass
     await message.answer(FIRST_MESSAGE)
     await asyncio.sleep(7)
     await message.answer(SECOND_MESSAGE)
