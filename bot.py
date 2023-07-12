@@ -154,13 +154,16 @@ async def create_task(user_id, num_of_message, date):
 async def sender():
     while True:
         tasks = []
-        async with aiofiles.open('tasks.json', mode='r') as fp:
+        async with aiofiles.open('tasks.json', mode='r+') as fp:
             tasks = json.loads(await fp.read())
         for i, task in enumerate(tasks):
             if datetime.datetime.strptime(task['date'], '%Y-%m-%d %H:%M:%S.%f') <= datetime.datetime.now():
                 num_of_message = int(task["num_of_message"])
                 user_id = task['user_id']
                 tasks.pop(i)
+                await fp.seek(0)
+                await fp.truncate(0)
+                await fp.write(json.dumps(tasks))
                 if num_of_message == 4:
                     await create_task(user_id, 5, str(datetime.datetime.now()+datetime.timedelta(days=1)))
                     keyboard = aiogram.types.InlineKeyboardMarkup(2)
