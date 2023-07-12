@@ -143,6 +143,9 @@ async def create_task(user_id, num_of_message, date):
     tasks = []
     async with aiofiles.open('tasks.json', mode='r') as fp:
         tasks = json.loads(await fp.read())
+        for i in tasks:
+            if str(i['user_id']) == str(user_id) and int(num_of_message) == int(num_of_message) and datetime.datetime.strptime(i['date'], '%Y-%m-%d %H:%M:%S.%f') > datetime.datetime.now():
+                return
         tasks.append({
             'user_id': user_id,
             'num_of_message': num_of_message,
