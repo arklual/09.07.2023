@@ -154,16 +154,15 @@ async def create_task(user_id, num_of_message, date):
 async def sender():
     while True:
         tasks = []
-        async with aiofiles.open('tasks.json', mode='r+') as fp:
+        async with aiofiles.open('tasks.json', mode='r') as fp:
             tasks = json.loads(await fp.read())
         for i, task in enumerate(tasks):
             if datetime.datetime.strptime(task['date'], '%Y-%m-%d %H:%M:%S.%f') <= datetime.datetime.now():
                 num_of_message = int(task["num_of_message"])
                 user_id = task['user_id']
                 tasks.pop(i)
-                await fp.seek(0)
-                await fp.truncate(0)
-                await fp.write(json.dumps(tasks))
+                async with aiofiles.open('tasks.json', mode='w') as fp:
+                    await fp.write(json.dumps(tasks))
                 if num_of_message == 4:
                     await create_task(user_id, 5, str(datetime.datetime.now()+datetime.timedelta(days=1)))
                     keyboard = aiogram.types.InlineKeyboardMarkup(2)
@@ -207,7 +206,7 @@ async def sender():
                     keyboard = aiogram.types.InlineKeyboardMarkup(2)
                     keyboard.add(aiogram.types.InlineKeyboardButton('ПОЛУЧАТЬ РЕКОМЕНДАЦИИ📈', url='https://t.me/binarsignal'))
                     await bot.send_message(user_id, ELEVENTH_MESSAGE, reply_markup=keyboard)
-        await asyncio.sleep(10)
+        await asyncio.sleep(1)
 
 async def on_start(_):
     asyncio.create_task(sender())
