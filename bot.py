@@ -207,7 +207,7 @@ async def sender():
                     keyboard = aiogram.types.InlineKeyboardMarkup(2)
                     keyboard.add(aiogram.types.InlineKeyboardButton('ПОЛУЧАТЬ РЕКОМЕНДАЦИИ📈', url='https://t.me/binarsignal'))
                     await bot.send_message(user_id, ELEVENTH_MESSAGE, reply_markup=keyboard)
-        await asyncio.sleep(1)
+        await asyncio.sleep(10)
 
 async def on_start(_):
     asyncio.create_task(sender())
